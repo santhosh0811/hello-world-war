@@ -9,3 +9,4 @@ mvn clean package
 
 ls
 ls
+mkdir -p sample
