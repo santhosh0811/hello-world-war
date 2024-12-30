@@ -1,7 +1,7 @@
 ls
 if [ -d hello-world-war ]
 then
-rm -rf *
+rm -rf hello-world-war
 fi
 git clone https://github.com/santhosh0811/hello-world-war.git
 cd hello-world-war
