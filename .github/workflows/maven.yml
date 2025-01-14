@@ -51,21 +51,7 @@ jobs:
                     </server>
                   </servers>
                 </settings>" > ~/.m2/settings.xml
-          
-
-      - name: Install Maven
-        run: |
-          if ! command -v mvn &> /dev/null; then
-            echo "Maven not found, installing..."
-            sudo apt update
-            sudo apt install -y maven
-          else
-            echo "Maven is already installed"
-          fi
-
-      # Step 2: Verify Maven installation
-      - name: Verify Maven installation
-        run: mvn -v 
+        
           
       # Build the project with Maven
       - name: Build with Maven
