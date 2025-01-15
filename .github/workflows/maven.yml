@@ -31,13 +31,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Cache Maven dependencies
-      - name: Cache Maven dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: 
 
       - name: Configure Maven settings
         run: |
@@ -55,4 +48,4 @@ jobs:
           
       # Build the project with Maven
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean deploy
