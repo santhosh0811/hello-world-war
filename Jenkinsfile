@@ -1,33 +1,29 @@
 pipeline {
     agent any
     environment {
-       Sample_creds = credentials('Jfrog')
+        ARTIFACT_URL = 'http://13.201.185.43:8082/artifactory/hello-world-war-libs-release/com/efsavage/hello-world-war/1.0.1/hello-world-war-1.0.1.war'
+        TOMCAT_PATH = '/opt/apache-tomcat-10.1.34'
     }
-       stages 
-    {
-        stage('checkout') {             
+    stages {
+        stage('Download Artifact') {
             steps {
-                sh """
-                #!/bin/bash
-                sleep 60
-                sudo su
-                cd /opt/apache-tomcat-10.1.34/webapps
-                ls
-                curl -L -u "Sample_creds_USR:Sample_creds_PWD" -O "http://3.94.159.27:8082/artifactory/hello-world-war-libs-release/com/efsavage/hello-world-war/1.0.28/hello-world-war-1.0.28.war"
-                pwd
-                cd /opt/apache-tomcat-10.1.34/bin
-                ./shutdown.sh
-                sleep 3
-                pwd
-                
-                pwd
-                cd /opt/apache-tomcat-10.1.34/bin
-                ./startup.sh
-                sleep 3
-                """ 
+                withCredentials([usernamePassword(credentialsId: 'artifactory-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh """
+                   
+                    cd /opt/apache-tomcat-10.1.34/webapps
 
+                    # Correct usage of environment variables for curl
+                    curl -L -u "\$USERNAME:\$PASSWORD" -O "\$ARTIFACT_URL"
+
+                    cd ..
+                    pwd
+                    cd bin/
+                    ./shutdown.sh
+                    sleep 10
+                    ./startup.sh
+                    """
+                }
             }
         }
-         
     }
 }
