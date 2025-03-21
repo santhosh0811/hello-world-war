@@ -47,7 +47,7 @@ pipeline {
             steps {
                 echo 'Logging in to Docker Hub...'
                 sh """
-                echo ${DOCKER_HUB_PASS} | docker login -u ${DOCKER_HUB_USER} --password-stdin
+                echo ${DOCKER_HUB_PASS} | sudo docker login -u ${DOCKER_HUB_USER} --password-stdin
                 """
             }
         }
