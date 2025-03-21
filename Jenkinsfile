@@ -35,7 +35,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "Building Docker image from ${DOCKERFILE_PATH}..."
-                sh sudo "docker build -t ${DOCKER_REPO}:${DOCKER_TAG} -f ${DOCKERFILE_PATH} ."
+                sh "sudo docker build -t ${DOCKER_REPO}:${DOCKER_TAG} -f ${DOCKERFILE_PATH} ."
             }
         }
 
@@ -55,7 +55,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 echo 'Pushing Docker image to Docker Hub...'
-                sh sudo "docker push ${DOCKER_REPO}:${DOCKER_TAG}"
+                sh " sudo docker push ${DOCKER_REPO}:${DOCKER_TAG}"
             }
         }
 
