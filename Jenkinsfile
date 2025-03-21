@@ -35,7 +35,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "Building Docker image from ${DOCKERFILE_PATH}..."
-                sh "docker build -t ${DOCKER_REPO}:${DOCKER_TAG} -f ${DOCKERFILE_PATH} ."
+                sh sudo "docker build -t ${DOCKER_REPO}:${DOCKER_TAG} -f ${DOCKERFILE_PATH} ."
             }
         }
 
@@ -55,7 +55,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 echo 'Pushing Docker image to Docker Hub...'
-                sh "docker push ${DOCKER_REPO}:${DOCKER_TAG}"
+                sh sudo "docker push ${DOCKER_REPO}:${DOCKER_TAG}"
             }
         }
 
@@ -63,7 +63,7 @@ pipeline {
             steps {
                 echo 'Removing old container (if exists)...'
                 sh """
-                docker rm -f ${CONTAINER_NAME} || true
+                sudo docker rm -f ${CONTAINER_NAME} || true
                 """
             }
         }
@@ -72,7 +72,7 @@ pipeline {
             steps {
                 echo 'Running Docker container...'
                 sh """
-                docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${DOCKER_REPO}:${DOCKER_TAG}
+                sudo docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${DOCKER_REPO}:${DOCKER_TAG}
                 """
             }
         }
