@@ -41,13 +41,12 @@ pipeline {
 
         stage('Login to Docker Hub') {
             environment {
-                DOCKER_HUB_USER = credentials('docker_hub_user')    // Jenkins credentials ID for username
-                DOCKER_HUB_PASS = credentials('docker_hub_pass')    // Jenkins credentials ID for password
+                DOCKER_CREDENTIALS = credentials('docker_hub_token')   // Single credential ID
             }
             steps {
                 echo 'Logging in to Docker Hub...'
                 sh """
-                echo ${DOCKER_HUB_PASS} | sudo docker login -u ${DOCKER_HUB_USER} --password-stdin
+                echo ${DOCKER_CREDENTIALS_PSW} | sudo docker login -u ${DOCKER_CREDENTIALS_USR} --password-stdin
                 """
             }
         }
@@ -55,7 +54,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 echo 'Pushing Docker image to Docker Hub...'
-                sh " sudo docker push ${DOCKER_REPO}:${DOCKER_TAG}"
+                sh "sudo docker push ${DOCKER_REPO}:${DOCKER_TAG}"
             }
         }
 
@@ -90,4 +89,3 @@ pipeline {
         }
     }
 }
-
